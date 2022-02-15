@@ -85,19 +85,25 @@ public class Enemy extends Person{
         }
     }
 
-    private void dead(){
-        GameFragment.getAttackEnemyArrayList().remove(this);
+    public void dead(){
+        GameFragment.getAttackEnemyArrayList().remove(this);//将敌人从列表中移除
+        GameFragment.point += 20; //增加分数
+        if(MainActivity.maxPoint < GameFragment.point){
+            MainActivity.maxPoint = GameFragment.point;
+        }
         this.destroy();
+        this.post(() -> {
+            Message.obtain();
+            GameFragment.refreshView(); //刷新
+        });
     }
 
     //攻击
     private void attack() {
         new Thread(() -> {
-            Random ra = new Random();
             outer:while (this.getHealth() > 0) {
                 try {
                     for (int i = 0; i < this.attackCount; i++) {
-                        ArrayList<Ammo> ammoArrayList = EnemySpawn.getAmmoArrayList();
                         int ammoNumber = EnemySpawn.getAmmoNumber();
                         int maxAmmo = EnemySpawn.getMaxAmmo();
                         switch (this.getEnemyNumber()){
@@ -111,21 +117,35 @@ public class Enemy extends Person{
 
                             }
                             case 4: {
-                                ammoArrayList.get(ammoNumber).setRadian((float) ((random() * PI / 3) - PI / 6)); //-30到30度
+                                EnemySpawn.getAmmoArrayList().get(ammoNumber).setRadian((float) ((random() * PI / 3) - PI / 6)); //-30到30度
                                 break;
                             }
                             default:{
                                 break;
                             }
                         }
-                        ammoArrayList.get(ammoNumber).setX(this.getX() + this.getWidth() / 2);
-                        ammoArrayList.get(ammoNumber).setY(this.getY());
+                        EnemySpawn.getAmmoArrayList().get(ammoNumber).setX(this.getX());
+                        EnemySpawn.getAmmoArrayList().get(ammoNumber).setY(this.getY());
 
-                        ammoArrayList.get(ammoNumber).start();
+                        EnemySpawn.getAmmoArrayList().get(ammoNumber).start();
                         EnemySpawn.setAmmoNumber(ammoNumber + 1);
                         if (ammoNumber >= maxAmmo) {
-                            if (ammoArrayList.get(0).isAttack()) { //第一个子弹还在屏幕内说明子弹不够用,要额外添加
-                                new EnemySpawn(null).addAmmo();
+                            if (EnemySpawn.getAmmoArrayList().get(0).isAttack()) { //第一个子弹还在屏幕内说明子弹不够用,要额外添加
+                                Log.w(TAG, "addAmmo: action");
+                                for(int j = 0; j < 5; j++){
+                                    Ammo ammo = new Ammo(getContext());
+                                    ammo.setAttribute(i + maxAmmo,R.drawable.enemy_ammo1,15,0,null);
+                                    ammo.setAlpha(0f);
+                                    ammo.setMaxHeight(8);
+                                    ammo.setMaxWidth(8);
+                                    ammo.setAttack(false);
+                                    EnemySpawn.getAmmoArrayList().add(ammo);
+                                    this.post(() -> { //尽量少用这个方法,用多了容易闪退
+                                        Message.obtain();
+                                        GameFragment.layout.addView(ammo); //UI操作只能在主线程中执行
+                                    });
+                                }
+                                EnemySpawn.setMaxAmmo(maxAmmo + 10);
                             } else {
                                 EnemySpawn.setAmmoNumber(0); //子弹够用,再从第一个子弹开始复用
                             }
@@ -138,7 +158,6 @@ public class Enemy extends Person{
             }
         }).start();
     }
-
 
 
     private void move(){

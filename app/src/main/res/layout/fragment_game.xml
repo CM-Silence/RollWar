@@ -43,44 +43,50 @@
         android:layout_height="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.911" />
 
     <ProgressBar
         android:id="@+id/main_game_pb_health"
         style="?android:attr/progressBarStyleHorizontal"
-        android:secondaryProgress="100"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="236dp"
-        android:layout_marginBottom="696dp"
         android:background="@drawable/general_background"
+        android:secondaryProgress="100"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.153"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.055" />
 
     <TextView
         android:id="@+id/main_game_tv_point"
-        android:layout_width="9dp"
-        android:layout_height="3dp"
-        android:layout_marginEnd="216dp"
-        android:layout_marginBottom="420dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="328dp"
+        android:layout_marginBottom="532dp"
         android:background="@drawable/general_background"
         android:text="分数:"
-        android:textSize="25sp"
         android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_game_tv_maxpoint"
+        app:layout_constraintVertical_bias="0.147" />
 
     <TextView
         android:id="@+id/main_game_tv_maxpoint"
-        android:layout_width="9dp"
-        android:layout_height="3dp"
-        android:layout_marginEnd="216dp"
-        android:layout_marginBottom="420dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="312dp"
+        android:layout_marginBottom="636dp"
         android:background="@drawable/general_background"
         android:text="最高分:"
-        android:textSize="25sp"
         android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -89,6 +95,12 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:background="@drawable/selector_btn"
-        android:src="@drawable/pause"/>
+        android:src="@drawable/pause"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.934"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.054" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.rollwar.gamedata;
 
+import static android.service.controls.ControlsProviderService.TAG;
 import static com.example.rollwar.utils.AnimationUtil.alpha;
 import static com.example.rollwar.utils.AnimationUtil.alphaUDBack;
 
@@ -9,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -17,21 +19,20 @@ import androidx.annotation.Nullable;
 import com.example.rollwar.R;
 import com.example.rollwar.page.activity.MainActivity;
 import com.example.rollwar.page.activity.StartActivity;
+import com.example.rollwar.page.dialog.GameDialog;
 import com.example.rollwar.page.fragment.GameFragment;
 
 public abstract class Person extends androidx.appcompat.widget.AppCompatImageView {
-    private int imageID;
-    private int maxHealth;
-    private int health;
-    private int damage;
-    private float attackSpeed;
-    private float speed;
-    private int energy;
+    private int imageID; //图片ID
+    private int maxHealth; //最大生命值
+    private int health; //生命值
+    private int damage; //攻击伤害
+    private float attackSpeed; //攻击速度
+    private float speed; //移动速度
+    private int energy; //能量上限(备用)
     private float x;
     private float y;
     private boolean enemy; //是否是敌人
-
-    private Handler mHandler;
 
     public Person(@NonNull Context context) {
         super(context);
@@ -52,7 +53,7 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
     }
 
     //给玩家用的构造方法
-    public void setAttribute(int imageID, int health, int damage, float attackSpeed, float speed, int energy){
+    public void setAttribute(int imageID, int health, int damage, float attackSpeed, float speed, int energy,boolean enemy){
         this.imageID = imageID;
         this.health = health;
         this.maxHealth = health;
@@ -60,7 +61,7 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
         this.attackSpeed = attackSpeed;
         this.speed = speed;
         this.energy = energy;
-        this.enemy = false;
+        this.enemy = enemy;
         this.setImageResource(imageID);
     }
 
@@ -128,12 +129,25 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
         this.enemy = enemy;
     }
 
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
     //受伤
     public void injure(Ammo ammo){
         this.setHealth(getHealth() - ammo.getPerson().getDamage());
         if(this.getHealth() <= 0){
-            dead();
+            this.dead();
         }
+        this.post(() -> {
+            Message.obtain();
+            GameFragment.refreshView(); //刷新
+        });
+
     }
 
     public void injure(Person person){
@@ -142,22 +156,35 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
             GameFragment.getPbHealth().setProgress(100 * health / maxHealth);
         }
         if(this.getHealth() <= 0){
-            dead();
+            this.dead();
         }
+
+        this.post(() -> {
+            Message.obtain();
+            GameFragment.refreshView(); //刷新
+        });
     }
 
     //挂掉
-    private void dead(){
+    public void dead(){
+        Log.w(TAG, "dead: someone");
         if(enemy = true){
+            Log.w(TAG, "dead: enemy");
             GameFragment.getAttackEnemyArrayList().remove(this);//将敌人从列表中移除
             GameFragment.point += 20; //增加分数
-            GameFragment.refreshView(); //刷新分数
             if(MainActivity.maxPoint < GameFragment.point){
                 MainActivity.maxPoint = GameFragment.point;
             }
+            this.post(() -> {
+                Message.obtain();
+                GameFragment.refreshView(); //刷新
+            });
         }
         else{
+            Log.w(TAG, "dead: player");
             GameFragment.gameOver = true; //游戏结束
+            GameDialog myDialog = new GameDialog(getContext());
+            myDialog.setTitle("游戏结束").show();
             MainActivity.saveData(); //保存数据
         }
     }

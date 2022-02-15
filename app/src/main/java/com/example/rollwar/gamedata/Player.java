@@ -10,6 +10,7 @@ import static java.lang.Math.sqrt;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -18,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.rollwar.page.activity.MainActivity;
+import com.example.rollwar.page.dialog.GameDialog;
 import com.example.rollwar.page.fragment.GameFragment;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class Player extends Person{
     private int ammoImage; //子弹图片
     private ArrayList<Ammo> ammoArrayList; //子弹列表(复用子弹对象,免得new一堆子弹出来撑爆手机内存)
 
-    private Handler mHandler;
+    private GameDialog myDialog;
 
     public Player(@NonNull Context context) {
         super(context);
@@ -47,8 +49,8 @@ public class Player extends Person{
         super(context, attrs, defStyleAttr);
     }
 
-    public void setAttribute(int imageID, int health, int damage, float attackSpeed, float speed, int attackCount,int energy, int playerNumber, int ammoImage) {
-        super.setAttribute(imageID, health, damage, attackSpeed, speed, energy);
+    public void setAttribute(int imageID, int health, int damage, float attackSpeed, float speed, boolean enemy,int attackCount,int energy, int playerNumber, int ammoImage) {
+        super.setAttribute(imageID, health, damage, attackSpeed, speed, energy, enemy);
         this.attackCount = attackCount;
         this.playerNumber = playerNumber;
         this.ammoImage = ammoImage;
@@ -75,6 +77,7 @@ public class Player extends Person{
 
     //初始化数据
     private void initData(){
+        myDialog = new GameDialog(getContext());
         ammoArrayList = new ArrayList<>();
         ammoNumber = 0;
         maxAmmo = 50;
@@ -144,6 +147,8 @@ public class Player extends Person{
                     this.setY(y + speedY);
                 }
             }
+            dead();
+
         }).start();
     }
 
@@ -154,9 +159,9 @@ public class Player extends Person{
             while (this.getHealth() > 0) {
                 try {
                     for(int i = 0; i < this.attackCount; i++) {
-                        ammoArrayList.get(ammoNumber).setX(Player.this.getX() + Player.this.getWidth());
-                        ammoArrayList.get(ammoNumber).setY(Player.this.getY());
-                        if (Player.this.getPlayerNumber() == 2) {
+                        ammoArrayList.get(ammoNumber).setX(this.getX() + this.getWidth());
+                        ammoArrayList.get(ammoNumber).setY(this.getY());
+                        if (this.getPlayerNumber() == 2 || this.getPlayerNumber() == 4) {
                             ammoArrayList.get(ammoNumber).setRadian((float) ((random() * PI / 3) - PI / 6)); //-30到30度
                         }
                         ammoArrayList.get(ammoNumber).start();
@@ -175,6 +180,18 @@ public class Player extends Person{
                 }
             }
         }).start();
+    }
+
+    //挂掉
+    public void dead(){
+        Log.w(TAG, "dead: player");
+        GameFragment.gameOver = true; //游戏结束
+        this.post(() -> {
+            Message.obtain();
+            myDialog.setTitle("游戏结束").setContinue(false).show();
+        });
+        MainActivity.saveData(); //保存数据
+
     }
 
 

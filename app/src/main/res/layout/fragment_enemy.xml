@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.example.rollwar.view.MyImage
-        android:id="@+id/login_enemyfragment_iv_enemy"
+        android:id="@+id/main_enemyfragment_iv_enemy"
         android:layout_width="128dp"
         android:layout_height="128dp"
         android:layout_marginStart="24dp"
@@ -39,7 +39,7 @@
         android:gravity="center_horizontal"
         android:text="敌人介绍"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/login_enemyfragment_iv_enemy"
+        app:layout_constraintStart_toEndOf="@+id/main_enemyfragment_iv_enemy"
         app:layout_constraintTop_toBottomOf="@+id/login_enemyfragment_rv_enemy"
         app:layout_constraintVertical_bias="0.222" />
 
@@ -54,10 +54,10 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_enemyfragment_iv_enemy" />
+        app:layout_constraintTop_toBottomOf="@+id/main_enemyfragment_iv_enemy" />
 
     <Button
-        android:id="@+id/login_enemyfragment_btn_back"
+        android:id="@+id/main_enemyfragment_btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"

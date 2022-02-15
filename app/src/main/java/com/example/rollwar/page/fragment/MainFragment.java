@@ -215,22 +215,22 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     switch (optionList.get(position + Math.round(positionOffset)).getPlayerImageID()) {
                         case R.drawable.player1: {
                             mTvPlayerName.setText("佛系青年");
-                            mTvIntroduce.setText("一名佛系青年,喜欢直接摆烂,只要不挂科就行。\n使用钢笔进行远程单体攻击,战斗力中规中矩\n使用技能后会进行临时泡佛脚,攻速大幅提升");
+                            mTvIntroduce.setText("一名佛系青年,喜欢直接摆烂,只要不挂科就行。\n使用钢笔进行远程单体攻击,战斗力中规中矩");
                             break;
                         }
                         case R.drawable.player2: {
                             mTvPlayerName.setText("卷王");
-                            mTvIntroduce.setText("一名热爱学习的卷王,宁愿累死自己也要卷死同学。\n使用书本进行远程散射攻击,攻击力较高,但自身生命值较少\n使用技能后会运用知识的力量产生护盾抵挡敌人的进攻");
+                            mTvIntroduce.setText("一名热爱学习的卷王,宁愿累死自己也要卷死同学。\n使用书本进行远程散射攻击,攻击力较高,但自身生命值较少");
                             break;
                         }
                         case R.drawable.player3: {
                             mTvPlayerName.setText("运动达人");
-                            mTvIntroduce.setText("一名运动狂人,喜欢打球,不喜欢学习。\n使用棒球棍进行近战,攻击力较高且自身生命值较高\n使用技能后的一段时间会用棒球棍打出棒球进行运程攻击");
+                            mTvIntroduce.setText("一名运动狂人,喜欢打球,不喜欢学习。\n使用棒球棍打出棒球进行运程攻击,攻击力较高且自身生命值较高");
                             break;
                         }
                         case R.drawable.player4: {
                             mTvPlayerName.setText("毁灭者");
-                            mTvIntroduce.setText("学校中最为恐怖的存在,使用打火机摧毁前方的一切难题。\n使用打火机进行远程单体攻击,攻击力与自身生命值处于中等水平\n使用技能后会进行中程喷火攻击,威力极大");
+                            mTvIntroduce.setText("学校中最为恐怖的存在,使用打火机摧毁前方的一切难题。\n使用打火机进行远程单体攻击,攻击力与自身生命值处于中等水平");
                             break;
                         }
                     }
@@ -302,6 +302,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     }
 
     private void play(){
+        initFragment();
         replaceFragment(gameFragment);
         menuLeave();
         if(mBtnSetting.isMenuOpen()){

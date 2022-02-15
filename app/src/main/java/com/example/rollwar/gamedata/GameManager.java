@@ -1,10 +1,16 @@
 package com.example.rollwar.gamedata;
 
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.view.View;
 
+/**
+ * description ： 实际上只是起到了碰撞检测的作用
+ * author : Silence
+ */
+
 public class GameManager {
+
+    //碰撞检测
     public static boolean isCrash(View view1,View view2){
         float view1X1 = view1.getX();
         float view1X2 = view1X1 + view1.getWidth();

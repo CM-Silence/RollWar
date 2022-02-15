@@ -121,25 +121,6 @@ public class EnemySpawn extends androidx.appcompat.widget.AppCompatImageView{
         }
     }
 
-    //如果列表中的子弹不够用的话就再添加
-    public void addAmmo(){
-        Log.w(TAG, "addAmmo: action");
-        for(int i = 0; i < 5; i++){
-            Ammo ammo = new Ammo(getContext());
-            ammo.setAttribute(i + maxAmmo,R.drawable.enemy_ammo1,15,0,null);
-            ammo.setAlpha(0f);
-            ammo.setMaxHeight(8);
-            ammo.setMaxWidth(8);
-            ammo.setAttack(false);
-            ammoArrayList.add(ammo);
-            this.post(() -> { //尽量少用这个方法,用多了容易闪退
-                Message.obtain();
-                GameFragment.layout.addView(ammo); //UI操作只能在主线程中执行
-            });
-        }
-        maxAmmo += 10;
-    }
-
     private void addEnemy() {
         Log.w(TAG, "addEnemy: action");
         for(int i = 0; i < 5; i++){
