@@ -82,6 +82,8 @@ public class Player extends Person{
             Ammo ammo = new Ammo(getContext());
             ammo.setAttribute(i,ammoImage,-20,0,this);
             ammo.setAlpha(0f);
+            ammo.setMaxHeight(8);
+            ammo.setMaxWidth(8);
             ammo.setAttack(false);
             ammoArrayList.add(ammo);
             GameFragment.layout.addView(ammo); //UI操作只能在主线程中执行
@@ -95,6 +97,8 @@ public class Player extends Person{
             Ammo ammo = new Ammo(getContext());
             ammo.setAttribute(i + maxAmmo,ammoImage,-20,0,this);
             ammo.setAlpha(0f);
+            ammo.setMaxHeight(8);
+            ammo.setMaxWidth(8);
             ammo.setAttack(false);
             ammoArrayList.add(ammo);
             this.post(() -> {

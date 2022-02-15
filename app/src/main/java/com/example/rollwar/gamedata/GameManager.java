@@ -1,5 +1,7 @@
 package com.example.rollwar.gamedata;
 
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.View;
 
 public class GameManager {
@@ -14,21 +16,9 @@ public class GameManager {
         float view2Y1 = view2.getY();
         float view2Y2 = view2Y1 + view2.getHeight();
 
-        //在四个角的情况
-        if((view2X2 < view1X1 || view2X1 > view1X2) && (view2Y2 < view1Y1 || view2Y1 > view1Y2)){
-            return false;
-        }
+        RectF rect1 = new RectF(view1X1,view1Y1,view1X2,view1Y2);
+        RectF rect2 = new RectF(view2X1,view2Y1,view2X2,view2Y2);
 
-        //在上下的情况
-        if(((view1X2 > view1X1 && view1X2 < view2X2) || ((view1X1 > view1X1 && view1X1 < view2X2))) && (view2Y2 < view1Y1 || view2Y1 > view1Y2)){
-            return false;
-        }
-
-        //在左右的情况
-        if(((view1Y2 > view1Y1 && view1Y2 < view2Y2) || ((view1Y1 > view1Y1 && view1Y1 < view2Y2))) && (view2X2 < view1X1 || view2X1 > view1X2)){
-            return false;
-        }
-
-        return true;
+        return RectF.intersects(rect1,rect2);
     }
 }
