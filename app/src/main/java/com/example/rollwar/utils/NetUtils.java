@@ -16,6 +16,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+/**
+ * description ： 用于进行网络请求
+ * author : Silence
+ */
+
 public class NetUtils {
 
     private static String StreamToString(InputStream in){

@@ -1,5 +1,6 @@
 package com.example.rollwar.page.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -29,12 +30,13 @@ import java.util.Objects;
 
 public class GameFragment extends Fragment implements View.OnClickListener{
     private static Player mIvPlayer; //角色
-    private ProgressBar mPbHealth; //生命条
-    private TextView mTvPoint; //得分
-    private TextView mTvMaxPoint; //最高分
+    private static ProgressBar mPbHealth; //生命条
+    private static TextView mTvPoint; //得分
+    private static TextView mTvMaxPoint; //最高分
     private static ArrayList<Enemy> attackEnemyArrayList; //装可攻击的敌人列表(即在屏幕中的敌人)
 
     public static boolean gameOver; //游戏是否结束
+    public static int point; //得分
 
     //怪物生成器
     private EnemySpawn enemySpawn1;
@@ -46,7 +48,7 @@ public class GameFragment extends Fragment implements View.OnClickListener{
 
     public static androidx.constraintlayout.widget.ConstraintLayout layout;
 
-    public ProgressBar getPbHealth() {
+    public static ProgressBar getPbHealth() {
         return mPbHealth;
     }
 
@@ -118,11 +120,14 @@ public class GameFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initData(){
+        point = 0;
         attackEnemyArrayList = new ArrayList<>();
     }
 
-    private void initThread(){
-
+    @SuppressLint("SetTextI18n")
+    public static void refreshView(){
+        mTvPoint.setText("得分:"+point);
+        mTvMaxPoint.setText("最高分:"+MainActivity.maxPoint);
     }
 
     //切换碎片的方法

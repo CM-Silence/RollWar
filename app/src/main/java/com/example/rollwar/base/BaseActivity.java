@@ -21,13 +21,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     private final boolean mIsPortraitScreen;
 
     /**
-     * 是否沉浸式状态栏
+     * 是否全屏
      */
     private final boolean mIsFullScreen;
 
-    public static int screenHeight; //屏幕高度
+    /**
+     * 屏幕高度
+     */
+    public static int screenHeight;
 
-    public static int screenWidth; //屏幕宽度
+    /**
+     * 屏幕宽度
+     */
+    public static int screenWidth;
 
     public BaseActivity() {
         mIsPortraitScreen = true;
@@ -36,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * @param isPortraitScreen 是否锁定竖屏
-     * @param isFullScreen 是否沉浸式状态栏
+     * @param isFullScreen 是否全屏
      */
     public BaseActivity(boolean isPortraitScreen, boolean isFullScreen) {
         mIsPortraitScreen = isPortraitScreen;
@@ -51,7 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-        if (mIsFullScreen) { // 沉浸式状态栏
+        if (mIsFullScreen) { // 全屏
             FullScreen(this);
         }
 

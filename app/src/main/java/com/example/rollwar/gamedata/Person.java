@@ -15,11 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.rollwar.R;
+import com.example.rollwar.page.activity.MainActivity;
 import com.example.rollwar.page.activity.StartActivity;
 import com.example.rollwar.page.fragment.GameFragment;
 
 public abstract class Person extends androidx.appcompat.widget.AppCompatImageView {
     private int imageID;
+    private int maxHealth;
     private int health;
     private int damage;
     private float attackSpeed;
@@ -53,6 +55,7 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
     public void setAttribute(int imageID, int health, int damage, float attackSpeed, float speed, int energy){
         this.imageID = imageID;
         this.health = health;
+        this.maxHealth = health;
         this.damage = damage;
         this.attackSpeed = attackSpeed;
         this.speed = speed;
@@ -65,6 +68,7 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
     public void setAttribute(int imageID, int health, int damage, float attackSpeed, float speed){
         this.imageID = imageID;
         this.health = health;
+        this.maxHealth = health;
         this.damage = damage;
         this.attackSpeed = attackSpeed;
         this.speed = speed;
@@ -124,23 +128,6 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
         this.enemy = enemy;
     }
 
-    //攻击
-    private void attack(int count){
-        mHandler = new Handler();
-        new Thread(() -> {
-            while (health > 0) {
-                try {
-                    for(int i = 0; i < count; i++){
-                        new MyHandler().start();
-                    }
-                    Thread.sleep((long) (attackSpeed * 1000));//等待一段时间
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
     //受伤
     public void injure(Ammo ammo){
         this.setHealth(getHealth() - ammo.getPerson().getDamage());
@@ -151,6 +138,9 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
 
     public void injure(Person person){
         this.setHealth(getHealth() - person.getDamage());
+        if(enemy = false){
+            GameFragment.getPbHealth().setProgress(100 * health / maxHealth);
+        }
         if(this.getHealth() <= 0){
             dead();
         }
@@ -159,35 +149,18 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
     //挂掉
     private void dead(){
         if(enemy = true){
-            GameFragment.getAttackEnemyArrayList().remove(this);
+            GameFragment.getAttackEnemyArrayList().remove(this);//将敌人从列表中移除
+            GameFragment.point += 20; //增加分数
+            GameFragment.refreshView(); //刷新分数
+            if(MainActivity.maxPoint < GameFragment.point){
+                MainActivity.maxPoint = GameFragment.point;
+            }
         }
         else{
-            GameFragment.gameOver = true;
+            GameFragment.gameOver = true; //游戏结束
+            MainActivity.saveData(); //保存数据
         }
     }
 
-    //移动
-    private void move(){
 
-    }
-
-    //用于UI处理的线程
-    private class MyHandler extends Thread {
-        @Override
-        public void run() {
-
-            //通过Handler将Runnable中的run方法传递给主线程执行
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Ammo ammo = new Ammo(getContext());
-                    //ammo.setAttribute(R.drawable.ammo1,-5,0,Person.this);
-                    ammo.setX(Person.this.getX() + Person.this.getWidth());
-                    ammo.setY(Person.this.getY());
-                    GameFragment.layout.addView(ammo); //UI操作只能在主线程中执行
-                    mHandler = new Handler(); //每次重新执行run()方法都要new一个Handler出来
-                }
-            });
-        }
-    }
 }

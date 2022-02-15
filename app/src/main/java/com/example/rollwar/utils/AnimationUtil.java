@@ -7,6 +7,11 @@ import android.view.View;
 
 import com.example.rollwar.gamedata.Enemy;
 
+/**
+ * description ： 用于实现一些常用的动画
+ * author : Silence
+ */
+
 public class AnimationUtil {
     private static ObjectAnimator alphaAnim1;
     private static ObjectAnimator alphaAnim2;//备用

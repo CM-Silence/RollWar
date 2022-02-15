@@ -37,6 +37,7 @@ public class MainActivity extends BaseActivity {
     public static int sound; //音量
     public static float touchX = 0;
     public static float touchY = 0;
+    public static int maxPoint; //最高分
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +58,14 @@ public class MainActivity extends BaseActivity {
     private void initData(){
         sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        maxPoint = sharedPreferences.getInt("maxPoint",0);
         sound = sharedPreferences.getInt("sound",50);
     }
 
+    public static void saveData(){
+        editor.putInt("maxPoint",maxPoint);
+        editor.putInt("sound",sound);
+    }
 
     //开始该活动的方法
     public static void startActivity(Context context){

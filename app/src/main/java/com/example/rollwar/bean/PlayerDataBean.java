@@ -1,6 +1,11 @@
 package com.example.rollwar.bean;
 
-//开始游戏界面的按钮图片和点击事件
+
+/**
+ * description ： 用于储存ViewPager2中的数据
+ * author : Silence
+ */
+
 public class PlayerDataBean {
     private int playerImageID;//角色图片id
     private int weaponImageID;//武器图片id
