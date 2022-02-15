@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -48,6 +49,7 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
         super.onDraw(canvas);
     }
 
+    //给玩家用的构造方法
     public void setAttribute(int imageID, int health, int damage, float attackSpeed, float speed, int energy){
         this.imageID = imageID;
         this.health = health;
@@ -59,6 +61,7 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
         this.setImageResource(imageID);
     }
 
+    //给敌人用的构造方法
     public void setAttribute(int imageID, int health, int damage, float attackSpeed, float speed){
         this.imageID = imageID;
         this.health = health;
@@ -66,7 +69,10 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
         this.attackSpeed = attackSpeed;
         this.speed = speed;
         this.enemy = true;
-        this.setImageResource(imageID);
+        this.post(() -> {
+            Message.obtain();
+            this.setImageResource(imageID);
+        });
     }
 
     public int getImageID() {
@@ -138,6 +144,13 @@ public abstract class Person extends androidx.appcompat.widget.AppCompatImageVie
     //受伤
     public void injure(Ammo ammo){
         this.setHealth(getHealth() - ammo.getPerson().getDamage());
+        if(this.getHealth() <= 0){
+            dead();
+        }
+    }
+
+    public void injure(Person person){
+        this.setHealth(getHealth() - person.getDamage());
         if(this.getHealth() <= 0){
             dead();
         }

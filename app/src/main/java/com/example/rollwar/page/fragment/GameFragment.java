@@ -30,6 +30,8 @@ import java.util.Objects;
 public class GameFragment extends Fragment implements View.OnClickListener{
     private static Player mIvPlayer; //角色
     private ProgressBar mPbHealth; //生命条
+    private TextView mTvPoint; //得分
+    private TextView mTvMaxPoint; //最高分
     private static ArrayList<Enemy> attackEnemyArrayList; //装可攻击的敌人列表(即在屏幕中的敌人)
 
     public static boolean gameOver; //游戏是否结束
@@ -51,6 +53,8 @@ public class GameFragment extends Fragment implements View.OnClickListener{
     public static Player getIvPlayer() {
         return mIvPlayer;
     }
+
+
 
     public static ArrayList<Enemy> getAttackEnemyArrayList() {
         return attackEnemyArrayList;
@@ -75,10 +79,12 @@ public class GameFragment extends Fragment implements View.OnClickListener{
     private void initView(View view){
         mIvPlayer = view.findViewById(R.id.main_game_iv_player);
         mPbHealth = view.findViewById(R.id.main_game_pb_health);
+        mTvPoint = view.findViewById(R.id.main_game_tv_point);
+        mTvMaxPoint = view.findViewById(R.id.main_game_tv_maxpoint);
         enemySpawn1 = view.findViewById(R.id.main_game_spawn1);
         enemySpawn2 = view.findViewById(R.id.main_game_spawn2);
         enemySpawn3 = view.findViewById(R.id.main_game_spawn3);
-        mPbHealth.setProgress(100,true);
+        mPbHealth.setProgress(100);
 
         layout = view.findViewById(R.id.game_layout);
         int selectPlayer = MainFragment.selectPlayer;

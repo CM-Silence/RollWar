@@ -27,7 +27,7 @@ public class Player extends Person{
     private float x;
     private float y;
     private int playerNumber;
-    private int attackCount;
+    private int attackCount; //单次攻击次数
     private int ammoNumber; //子弹列表中的子弹序号
     private int maxAmmo; //子弹列表中的子弹个数
     private int ammoImage; //子弹图片
@@ -149,7 +149,6 @@ public class Player extends Person{
 
     //攻击
     private void attack(){
-        mHandler = new Handler();
         new Thread(() -> {
             Random ra = new Random();
             while (this.getHealth() > 0) {
