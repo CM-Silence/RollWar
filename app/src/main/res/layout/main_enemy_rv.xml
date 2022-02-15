@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="115dp"
+    android:layout_height="115dp"
+    android:background="#00FFFFFF"
+    >
+
+    <com.example.rollwar.view.MyImage
+        android:id="@+id/login_enemyfragment_rv_iv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@drawable/general_background"/>
+
+
+
+
+</FrameLayout>
